@@ -1,0 +1,13 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq-cluster-test
+spec:
+  replicas: 3
+  rabbitmq:
+    additionalPlugins:
+      - rabbitmq_federation
+      - rabbitmq_federation_management
+  persistence:
+    storageClassName: ""
+    storage: 10Gi
