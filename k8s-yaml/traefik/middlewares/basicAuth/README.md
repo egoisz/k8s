@@ -1,13 +1,16 @@
-# Create user test/test
+### Create user test/test
+```
 htpasswd -c auth.db anthony
-
-# Create user test2/test2
+```
+### Create user test2/test2
+```
 htpasswd auth.db test2
-
-# Get encrypted string
+```
+### Get encrypted string
+```
 base64 auth.db
-
-# IngressRoute add middlewares filed
+```
+### IngressRoute add middlewares filed
 ```
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
