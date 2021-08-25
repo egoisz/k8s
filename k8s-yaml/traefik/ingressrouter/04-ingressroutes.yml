@@ -25,10 +25,11 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`test.tv`) && PathPrefix(`/tls`)
+  - match: Host(`test.tv`) # && PathPrefix(`/tls`)
     kind: Rule
     services:
     - name: whoami
       port: 80
   tls:
-    certResolver: myresolver
+    # certResolver: myresolver
+    secretName: test.tv
