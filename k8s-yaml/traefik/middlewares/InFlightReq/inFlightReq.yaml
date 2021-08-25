@@ -1,0 +1,36 @@
+# Limiting the Number of Simultaneous In-Flight Requests
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-inflightreq-1
+spec:
+  inFlightReq:
+    amount: 10
+
+
+# the sourceCriterion option defines what criterion is used to group requests as originating from a common source
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-inflightreq-2
+spec:
+  inFlightReq:
+    sourceCriterion:
+      ipStrategy:
+        excludedIPs:
+        - 127.0.0.1/32
+        - 192.168.1.7
+
+
+# Name of the header used to group incoming requests.
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-inflightreq-3
+spec:
+  inFlightReq:
+    sourceCriterion:
+      requestHeaderName: username

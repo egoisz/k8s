@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: latency-check
+spec:
+  circuitBreaker:
+    # opens the circuit breaker when the median latency (quantile 50) reaches 100ms.
+    expression: LatencyAtQuantileMS(50.0) > 100 
+
+    # trigger the circuit breaker if 25% of the requests returned a 5XX status (amongst the request that returned a status code from 0 to 5XX).
+    # expression: ResponseCodeRatio(500, 600, 0, 600) > 0.25 
+    
+    # triggers the circuit breaker when 30% of the requests return a 5XX status code, or when the ratio of network errors reaches 10%. 
+    # expression: ResponseCodeRatio(500, 600, 0, 600) > 0.30 || NetworkErrorRatio() > 0.10

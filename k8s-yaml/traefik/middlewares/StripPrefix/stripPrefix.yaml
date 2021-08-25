@@ -1,0 +1,12 @@
+# Strip prefix /foobar and /fiibar
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /foobar
+      - /fiibar
+    # he forceSlash option ensures the resulting stripped path is not the empty string, by replacing it with / when necessary.
+    forceSlash: false

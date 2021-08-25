@@ -1,0 +1,56 @@
+# define reusable combinations of other pieces of middleware
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: test
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`mydomain`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: secured
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: secured
+spec:
+  chain:
+    middlewares:
+    - name: https-only
+    - name: known-ips
+    - name: auth-users
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: auth-users
+spec:
+  basicAuth:
+    users:
+    - test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
+spec:
+  redirectScheme:
+    scheme: https
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: known-ips
+spec:
+  ipWhiteList:
+    sourceRange:
+    - 192.168.1.7
+    - 127.0.0.1/32

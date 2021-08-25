@@ -1,0 +1,13 @@
+# returns a custom page in lieu of the default, according to configured ranges of HTTP Status codes.
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-errorpage
+spec:
+  errors:
+    status:
+      - "500-599"
+    query: /{status}.html
+    service:
+      name: whoami
+      port: 80

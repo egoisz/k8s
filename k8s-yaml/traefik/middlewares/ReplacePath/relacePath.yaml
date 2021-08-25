@@ -1,0 +1,8 @@
+# Replace the path with /foo
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-replacepath
+spec:
+  replacePath:
+    path: /foo

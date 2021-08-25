@@ -1,0 +1,42 @@
+# Adding and Removing Headers
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header-1
+spec:
+  headers:
+    customRequestHeaders:
+      X-Script-Name: "test" # Adds
+      X-Custom-Request-Header: "" # Removes
+    customResponseHeaders:
+      X-Custom-Response-Header: "" # Removes
+
+# Using Security Headers
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header-2
+spec:
+  headers:
+    frameDeny: true
+    browserxssfilter: true
+
+# CORS Headers
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header-3
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "OPTIONS"
+      - "PUT"
+    accessControlAllowOriginList:
+      - "https://foo.bar.org"
+      - "https://example.org"
+    accessControlMaxAge: 100
+    addVaryHeader: true

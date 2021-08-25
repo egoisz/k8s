@@ -1,0 +1,9 @@
+# Sets the maximum request body to 2MB
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: limit
+spec:
+  buffering:
+    maxRequestBodyBytes: 2000000  # configures the maximum allowed body size for the request (in bytes)
+    memRequestBodyBytes: 2000000  # configure a threshold (in bytes) from which the request will be buffered on disk instead of in memory 

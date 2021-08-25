@@ -1,0 +1,9 @@
+# Replace path with regex
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-replacepathregex
+spec:
+  replacePathRegex:
+    regex: ^/foo/(.*)
+    replacement: /bar/$1

@@ -1,0 +1,9 @@
+# Redirect with domain replacement
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-redirectregex
+spec:
+  redirectRegex:
+    regex: ^http://localhost/(.*)
+    replacement: http://mydomain/${1}
