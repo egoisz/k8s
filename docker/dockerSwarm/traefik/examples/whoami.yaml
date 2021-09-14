@@ -1,0 +1,41 @@
+version: "3.5"
+services:
+  whoami:
+    image: traefik/whoami
+    networks:
+      - test-net
+    ports:
+      - 83:80
+    deploy:
+      replicas: 2
+      labels:
+        # default is true
+        - traefik.enable=true
+
+        # match url and path
+        - traefik.http.routers.r1.rule=(Host(`example.com`) || Host(`yaya.com`)) && (PathPrefix(`/api`) || PathPrefix(`/gg`))
+
+        # Specify a service. If there is only one service, it is specified by default.
+        - traefik.http.routers.r1.service=s2
+
+        # expore services port
+        #- traefik.http.services.s1.loadbalancer.server.port=80
+        - traefik.http.services.s2.loadbalancer.server.port=80
+
+        # /api/ -> /bar/
+        #- traefik.http.routers.r1.middlewares=mt1
+        #- traefik.http.middlewares.mt1.replacepathregex.regex=^/bar/(.*)
+        #- traefik.http.middlewares.mt1.replacepathregex.replacement=/gg/$$1
+
+        # /api/ -> /
+        # - traefik.http.routers.r1.middlewares=mt2
+        #- traefik.http.middlewares.mt2.replacepathregex.regex=^/api/(.*)
+        #- traefik.http.middlewares.mt2.replacepathregex.replacement=/$$1
+
+        # basic auth
+        #- traefik.http.routers.r1.middlewares=mt3
+        #- "traefik.http.middlewares.mt3.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/,test2:$$apr1$$d9hr9HBB$$4HxwgUir3HP4EsggP/QNo0"
+networks:
+  test-net:
+    driver: overlay
+
