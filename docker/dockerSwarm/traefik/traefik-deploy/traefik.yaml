@@ -21,13 +21,18 @@ services:
       #- 443:443
       #- 8080:8080
     volumes:
-      - ./config.yaml:/etc/traefik/traefik.yml
-      - ./dynamic:/etc/traefik/dynamic
-      - ./certs:/etc/traefik/certs
+      - /root/traefik/config.yaml:/etc/traefik/traefik.yml
+      - /root/traefik/dynamic:/etc/traefik/dynamic
+      - /root/traefik/certs:/etc/traefik/certs
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     deploy:
       replicas: 1
+
+      # 添加约束条件
+      placement:
+        constraints:
+          - node.labels.role==master
       update_config:
         parallelism: 2
         delay: 10s
@@ -38,3 +43,4 @@ networks:
   test-net:
     external:
       name: "test_test-net"
+
