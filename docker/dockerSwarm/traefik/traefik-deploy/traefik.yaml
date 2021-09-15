@@ -5,9 +5,21 @@ services:
     networks:
       - test-net
     ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
+      - mode: host
+        protocol: tcp
+        published: 80
+        target: 80
+      - mode: host
+        protocol: tcp
+        published: 443
+        target: 443
+      - mode: host
+        protocol: tcp
+        published: 8080
+        target: 8080
+      #- 80:80
+      #- 443:443
+      #- 8080:8080
     volumes:
       - ./config.yaml:/etc/traefik/traefik.yml
       - ./dynamic:/etc/traefik/dynamic
@@ -24,5 +36,5 @@ services:
         #- traefik.http.services.traefik.loadbalancer.server.port=80
 networks:
   test-net:
-    driver: overlay
-
+    external:
+      name: "test_test-net"
