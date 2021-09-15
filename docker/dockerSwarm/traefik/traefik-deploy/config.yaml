@@ -5,7 +5,6 @@
 # For Traefik v1: https://github.com/traefik/traefik/blob/v1.7/traefik.sample.toml
 #
 ################################################################
-
 ################################################################
 # Global configuration
 ################################################################
@@ -70,7 +69,7 @@ entryPoints:
 #
 # Optional
 #
-accessLog: {}
+#accessLog: {}
   # Sets the file path for the access log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.
   #
@@ -134,6 +133,9 @@ providers:
     watch: true
     # docker network ls
     network: test_test-net
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
     # Docker server endpoint. Can be a tcp or a unix socket endpoint.
     #
     # Required
@@ -154,3 +156,4 @@ providers:
     # Default: true
     #
 #    exposedByDefault: false
+

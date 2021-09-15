@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  whoami:
+  test2:
     image: traefik/whoami
     networks:
       - test-net
@@ -13,10 +13,12 @@ services:
         - traefik.enable=true
 
         # match url and path
-        - traefik.http.routers.r1.rule=(Host(`example.com`) || Host(`yaya.com`)) && (PathPrefix(`/api`) || PathPrefix(`/gg`))
+        - traefik.http.routers.r1.rule=(Host(`example.com`) || Host(`yaya.com`) || Host(`gaga.com`)) && (PathPrefix(`/api`) || PathPrefix(`/gg`))
 
         # Specify a service. If there is only one service, it is specified by default.
         - traefik.http.routers.r1.service=s2
+
+        - traefik.http.routers.r1.tls=true
 
         # expore services port
         #- traefik.http.services.s1.loadbalancer.server.port=80
